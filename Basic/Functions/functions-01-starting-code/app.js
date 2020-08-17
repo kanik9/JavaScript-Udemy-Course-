@@ -12,7 +12,11 @@
                 1. toUpperCase() : It is use to convert all lower case string character into upper case.
         2. Objects :
             1. Arrays :
-            2. Objects : 
+            2. Objects :
+        3. Function :
+                1. .bind()  : It Create new function automaticaly according to the passed parameter .It is not execute it execute when the attached function is call 
+                2. .apply() : It same as .bind but it execute function first.
+                3. .call()  : Same as .apply
 
 
     Note : 1. In Javascript, Functions are "Code on Demand", it means functions is a code of block which is created when the demand came .
@@ -135,6 +139,70 @@
 
 */
 
+
+
+/*
+// How developer can pass infinite number of args like python we can use *args for list type and **kwargs for infinite variables
+
+
+- For taking multiple input use '...' . This 3 dots are known as rest operator which takes multiple argument as a input and the create array inside the function . When Developer use '...' he doesn't think about input.
+Note : rest operator argument must be the last argument in function. Because if you use it at first place then all the input are represented by this .
+1. First Method : Prefer to use it because it is understandable. This method include in ES6
+    1.1 : 
+            const sumUp = (...number) =>{
+                let sum =0;
+                for (const num of number){
+                    sum +=num
+                }
+                return sum;
+            };
+    1.2 : 
+            const sumUp = function(...number) =>{
+                let sum =0;
+                for (const num of number){
+                    sum +=num
+                }
+                return sum;
+            };
+2. It is old . And the upper one is new . This method is present in ES5
+    2.1 :
+            const sumUp = () =>{
+                let sum =0;
+                for (const num of arguments){ // it also create array like object
+                    sum +=num
+                }
+                return sum;
+            };
+    2.2 :   
+            const sumUp = function() =>{
+                let sum =0;
+                for (const num of arguments){ // it also create array like object
+                    sum +=num
+                }
+                return sum;
+            };
+console.log(sumUp(1,2,3,4,5,6,7,8,9,10,11,12,13))
+
+*/
+
+
+/*
+
+// Function inside function
+
+    const sumUp = (...numbers) => {
+        const validators = (number) =>{
+            return isNaN(number) ? 0 : number ; 
+        };
+        let sum = 0;
+        for (const num of number){
+            sum += validators(num);
+        }
+        return sum;
+    };
+
+*/
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 
@@ -241,3 +309,36 @@ startGameBtn.addEventListener('click', () => {
     gameIsRunning = false;
 }
 )
+
+
+
+
+// Not related to this file but for concept :
+
+
+const combine = (resultHandler, operation, ...number) =>{
+    const validators = (number) =>{
+        return isNaN(number) ? 0 : number ; 
+    };
+    let sum =0;
+    for (const num of number){
+        if (operation === "ADD"){
+            sum += validators(num); 
+        }
+        else {
+            sum -= validators(num);
+        }
+    }
+    console.log(sum)
+    resultHandler(sum, operation)
+};
+
+const showResult = (messageText, result) =>{
+    alert(messageText +' ' + result);
+}
+
+
+combine(showResult.bind(this,'The result after adding all numbers is :'), "ADD" ,1,5,'Hi',3,6,7,10);
+combine(showResult.bind(this,'The result after adding all numbers is :'), "ADD" , 1,2,3,4,5,6,7,8,9,10,11,12);
+combine(showResult.bind(this,'The result after subtracting all numbers is :'), "SUB" , 1,2,3,4,5,6,7,8,9,10,11,12);
+
